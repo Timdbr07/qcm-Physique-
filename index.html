@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QCM Physique - Mouvements dans l'espace</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f1f4f9, #dff1ff);
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .question {
+      margin-bottom: 30px;
+    }
+    .question h3 {
+      margin-bottom: 10px;
+    }
+    .option {
+      margin: 8px 0;
+    }
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result, .correction {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-left: 5px solid #007BFF;
+      border-radius: 8px;
+    }
+    .correction strong {
+      color: green;
+    }
+    .correction .wrong {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QCM - Mouvements dans l'espace 🌌</h1>
+    <form id="quizForm"></form>
+    <button onclick="corriger()">Valider mes réponses</button>
+    <div id="result" class="result"></div>
+    <div id="correction" class="correction"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "1. Quelle grandeur reste constante pour un mouvement uniforme rectiligne ?",
+        options: ["La vitesse", "L'accélération", "La force", "La position"],
+        answer: "La vitesse"
+      },
+      {
+        question: "2. Quel est le vecteur directeur du mouvement circulaire uniforme ?",
+        options: ["Le rayon", "La vitesse", "La tangente", "L'accélération"],
+        answer: "La tangente"
+      },
+      {
+        question: "3. En absence de force, un corps en mouvement continue...",
+        options: ["à accélérer", "à ralentir", "à tourner", "à vitesse constante"],
+        answer: "à vitesse constante"
+      },
+      {
+        question: "4. Le vecteur vitesse dans un mouvement circulaire est...",
+        options: ["Radial", "Tangentiel", "Nul", "Constant en direction"],
+        answer: "Tangentiel"
+      },
+      {
+        question: "5. Dans un référentiel galiléen, un objet soumis à aucune force...",
+        options: ["Tourne", "Chute", "Est immobile", "A un mouvement rectiligne uniforme"],
+        answer: "A un mouvement rectiligne uniforme"
+      },
+      {
+        question: "6. Lors d’un mouvement uniformément accéléré, l’accélération est...",
+        options: ["Nulle", "Variable", "Constante", "Tangente"],
+        answer: "Constante"
+      },
+      {
+        question: "7. Une trajectoire parabolique indique un mouvement soumis à...",
+        options: ["Une force constante horizontale", "Aucune force", "La gravité", "Une force radiale"],
+        answer: "La gravité"
+      },
+      {
+        question: "8. L’accélération dans un mouvement circulaire uniforme est orientée...",
+        options: ["Tangente à la trajectoire", "Vers l’extérieur", "Vers le centre", "N’importe où"],
+        answer: "Vers le centre"
+      },
+      {
+        question: "9. Un satellite en orbite autour de la Terre est en chute libre...",
+        options: ["Faux", "Vrai"],
+        answer: "Vrai"
+      },
+      {
+        question: "10. Quel est le lien entre la position et la vitesse ?",
+        options: ["La vitesse est l'intégrale de la position", "La position est la dérivée de la vitesse", "La vitesse est la dérivée de la position", "La vitesse est constante"],
+        answer: "La vitesse est la dérivée de la position"
+      }
+    ];
+
+    const quizForm = document.getElementById("quizForm");
+    const resultDiv = document.getElementById("result");
+    const correctionDiv = document.getElementById("correction");
+
+    questions.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<h3>${q.question}</h3>` + 
+        q.options.map((opt, i) => `
+          <div class="option">
+            <input type="radio" name="q${index}" value="${opt}" id="q${index}opt${i}">
+            <label for="q${index}opt${i}">${opt}</label>
+          </div>
+        `).join("");
+      quizForm.appendChild(div);
+    });
+
+    function corriger() {
+      let score = 0;
+      let corrections = "";
+
+      questions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAnswer = selected ? selected.value : null;
+
+        if (userAnswer === q.answer) {
+          score++;
+          corrections += `<p><strong>${q.question}</strong><br>✅ Votre réponse : ${userAnswer}</p>`;
+        } else {
+          corrections += `<p><strong>${q.question}</strong><br>
+          <span class="wrong">❌ Votre réponse : ${userAnswer || "aucune"}</span><br>
+          ✅ Bonne réponse : <strong>${q.answer}</strong></p>`;
+        }
+      });
+
+      resultDiv.innerHTML = `<h2>Votre note : ${score} / ${questions.length}</h2>`;
+      correctionDiv.innerHTML = `<h3>Correction :</h3>${corrections}`;
+    }
+  </script>
+</body>
+</html>
+
